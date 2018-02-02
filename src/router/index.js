@@ -1,18 +1,47 @@
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator,TabNavigator} from 'react-navigation';
 import config from './config.js';
+import {StyleSheet} from 'react-native'
+import {MainView,DetailView,FlowView} from '../views';
 
-import {MainView,DetailView} from '../views';
+const detailStyles = StyleSheet.create({
+    header:{
+        position:'absolute',
+    }
+})
+
+const DetailTab = TabNavigator({
+    detail:{
+        screen:DetailView,
+        navigationOptions:({navigation})=>({
+            // tabBarIcon:({focused,tintColor})=>(
+            // )
+        }),
+        ...config.DetailView
+    },
+    flow:{
+        screen:FlowView,
+        ...config.FlowView
+    }
+},{
+    tabBarPosition:'bottom'
+})
+
 
 const RootNavigator = StackNavigator({
    main:{
     screen:MainView,
     ...config.MainView
    },
-   detail:{
-    screen:DetailView,
+   loan:{
+    screen:DetailTab,
+    navigationOptions:({navigation})=>({
+        // headerStyle:detailStyles.header
+    }),
     ...config.DetailView
    }
 })
+
+
 // {
 //     onTransitionStart: (to,from)=>{
 //       if(Platform.OS === 'android'){
