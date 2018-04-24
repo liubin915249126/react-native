@@ -14,7 +14,11 @@ const config = {
     FlowView:{
        path:'flow',
        name:'flow',
-    }
+    },
+    TabView:{
+        path:'tabpage',
+        name:'tabpage',
+     }
 }
 
 export default config;

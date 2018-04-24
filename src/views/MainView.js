@@ -11,15 +11,23 @@ export default class MainView extends Component{
        const { navigate } = this.props.navigation;
        return(<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
            {
-               [1,2,3,4].map((item,index)=>{
+               [1,2].map((item,index)=>{
                    return <MainCellView 
                             index={item} 
-                            key={index}
+                            key={item}
                             toDetail={()=>{
                                 navigate('loan', { user:item})
                             }}
                         />
-               })
+               }).concat([3,4].map((item,index)=>{
+                return <MainCellView 
+                         index={item} 
+                         key={item}
+                         toDetail={()=>{
+                            navigate('tabpage', { user:item})
+                         }}
+                     />
+            }))
            }
        </View>)
    }

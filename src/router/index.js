@@ -1,11 +1,14 @@
 import { StackNavigator,TabNavigator} from 'react-navigation';
 import config from './config.js';
 import {StyleSheet} from 'react-native'
-import {MainView,DetailView,FlowView} from '../views';
+import {MainView,DetailView,FlowView,TabView} from '../views';
 
 const detailStyles = StyleSheet.create({
     header:{
         position:'absolute',
+    },
+    tabHeader:{
+        display:'none',
     }
 })
 
@@ -38,7 +41,15 @@ const RootNavigator = StackNavigator({
         // headerStyle:detailStyles.header
     }),
     ...config.DetailView
-   }
+   },
+   tabpage:{
+    screen:TabView,
+    navigationOptions:({navigation})=>({
+        headerStyle:detailStyles.tabHeader
+        // headerStyle:detailStyles.header
+    }),
+    ...config.TabView
+  },
 })
 
 
