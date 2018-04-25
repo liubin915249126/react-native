@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button,
 } from 'react-native';
 import MainCellView from '../components/MainCellView.js'
 
@@ -29,6 +30,7 @@ export default class MainView extends Component{
                      />
             }))
            }
+           <Button title="侧边栏" onPress={()=>{this.props.navigation.navigate('DrawerOpen')}}></Button>
        </View>)
    }
 } 
