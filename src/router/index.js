@@ -1,69 +1,71 @@
-import { StackNavigator,TabNavigator} from 'react-navigation';
-import config from './config.js';
-import {StyleSheet} from 'react-native'
-import {MainView,DetailView,FlowView,TabView} from '../views';
+import React from "react";
+import { connect, Provider } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addNavigationHelpers} from 'react-navigation';
+import RootNavigator from './router';
+import createStore from './store';
+import reducers from '../reducer';
+import sagas from '../sagas';
+import {PersistGate} from 'redux-persist/lib/integration/react'
 
-const detailStyles = StyleSheet.create({
-    header:{
-        position:'absolute',
-    },
-    tabHeader:{
-        display:'none',
+import { addListener } from '../reducer/reducer'
+const {persistor, store} = createStore(reducers, sagas
+    // the initialize actions that will be dispatched after redux/saga middlewares start
+    // APP_INIT: handled by main saga common/sagas, to load the sagas
+    //[APP_INIT()]
+  );
+const mapStateToProps = (state) => {
+    return {
+    // see navigation in reducer
+    navigation: state.navigation
+  }
+};
+const RootWithNavigator = connect(mapStateToProps)(({dispatch, navigation}) => {
+    return (
+      <RootNavigator navigation={addNavigationHelpers({dispatch, state: navigation})}/>
+    )
+});
+class Root extends React.Component{
+    render(){
+        return (
+          <Provider store={store}>
+            <PersistGate persistor={persistor}>
+              <RootWithNavigator />
+            </PersistGate>  
+          </Provider>
+        );
     }
-})
+}
+export default Root;
+// class AppWithNavigationState extends React.Component {
+//   static propTypes = {
+//     dispatch: PropTypes.func.isRequired,
+//     navigation: PropTypes.object.isRequired,
+//   };
 
-const DetailTab = TabNavigator({
-    detail:{
-        screen:DetailView,
-        navigationOptions:({navigation})=>({
-            // tabBarIcon:({focused,tintColor})=>(
-            // )
-        }),
-        ...config.DetailView
-    },
-    flow:{
-        screen:FlowView,
-        ...config.FlowView
-    }
-},{
-    tabBarPosition:'bottom'
-})
-
-
-const RootNavigator = StackNavigator({
-   main:{
-    screen:MainView,
-    ...config.MainView
-   },
-   loan:{
-    screen:DetailTab,
-    navigationOptions:({navigation})=>({
-        // headerStyle:detailStyles.header
-    }),
-    ...config.DetailView
-   },
-   tabpage:{
-    screen:TabView,
-    navigationOptions:({navigation})=>({
-        headerStyle:detailStyles.tabHeader
-        // headerStyle:detailStyles.header
-    }),
-    ...config.TabView
-  },
-})
-
-
-// {
-//     onTransitionStart: (to,from)=>{
-//       if(Platform.OS === 'android'){
-//         BackHandler.addEventListener('hardwareBackPress', () => handleBack(to,from,"start"))
-//       }
-//     },
-//     onTransitionEnd: (to,from)=>{ 
-//       if(Platform.OS === 'android'){
-//         BackHandler.removeEventListener('hardwareBackPress', () => handleBack(to,from,"end"))
-//       }
+//   render() {
+//     const { dispatch, navigation } = this.props;
+//     return (
+//           <RootNavigator
+//             navigation={{
+//               dispatch,
+//               state: navigation,
+//               addListener,
+//             }}
+//         />
+//     );
+//   }
+// }
+// const  RootWithNavigator = connect(mapStateToProps)(AppWithNavigationState);
+// class Root extends React.Component{
+//     render(){
+//         return (
+//           <Provider store={store}>
+//             <PersistGate persistor={persistor}>
+//               <RootWithNavigator />
+//             </PersistGate>  
+//           </Provider>
+//         );
 //     }
-// })
-
-export default RootNavigator;
+// }
+// export default Root;

@@ -1,5 +1,5 @@
 import { AppRegistry } from 'react-native';
 // import App from './src/App';
-import RootNavigator from './src/router';
+import Root from './src/router';
 
-AppRegistry.registerComponent('nativeapp', () => RootNavigator);
+AppRegistry.registerComponent('nativeapp', () => Root);

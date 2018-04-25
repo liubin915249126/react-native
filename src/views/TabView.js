@@ -11,7 +11,7 @@ import { DetailView, FlowView, TabBar } from '../views';
 
 export default class TabView extends Component{
     render(){
-        return(<ScrollableTabView renderTabBar={(props) => {return <TabBar {...props}/>}}>
+        return(<ScrollableTabView renderTabBar={(props) => {return <TabBar {...props} {...this.props} />}}>
             <DetailView />
             <FlowView />
         </ScrollableTabView>)
