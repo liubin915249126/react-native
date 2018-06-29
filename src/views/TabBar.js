@@ -16,20 +16,21 @@ export default class TabBar extends Component{
     }
    }
    goToPage(type){
-     debugger;
-     console.log(this)
+    // debugger;
+    this.props.goToPage(type);
+    // this.props.navigation.navigate(type);
    }
    render(){
        const {activeTab,goToPage} = this.props;
        return(
-           <View style={styles.wrap}>
+          <View style={styles.wrap}>
             <Button onPress={()=>{this.goBack();}} style={styles.goBack} title="back">
               <Image source={backIcon}/>
             </Button>
             <Button title="detail" onPress={()=>{this.goToPage('detail')}} style={styles.center}></Button>
             <Button title="flow" onPress={()=>{this.goToPage('flow')}} style={styles.center}></Button>
             <Button title=" " style={styles.goBack}></Button>
-           </View>
+          </View>
        )
    }
 }
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     },
     goBack:{
       width:backButtonWidth,
+      backgroundColor:'#fff',
     },
     center: {
       flex: 1
